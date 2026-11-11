@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#FFFFFF">
+  <title>Wanted rental requests in Sri Lanka | RentAds.lk</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/app.css">
+  <!-- speed: connect to the database early and fetch every script at once instead of one by one.
+       The jsdelivr lines must match supabase-js in js/supabase.js (2.118.0); update them together. -->
+  <link rel="preconnect" href="https://gsbkqcmuikgqrohoeykr.supabase.co" crossorigin>
+  <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.118.0/+esm">
+  <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/@supabase/auth-js@2.118.0/+esm">
+  <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/@supabase/postgrest-js@2.118.0/+esm">
+  <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/@supabase/realtime-js@2.118.0/+esm">
+  <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/@supabase/storage-js@2.118.0/+esm">
+  <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/@supabase/functions-js@2.118.0/+esm">
+  <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/@supabase/phoenix@0.4.5/+esm">
+  <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/tslib@2.8.1/+esm">
+  <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/iceberg-js@0.8.1/+esm">
+  <link rel="modulepreload" href="js/common.js">
+  <link rel="modulepreload" href="js/supabase.js">
+  <link rel="modulepreload" href="js/config.js">
+  <link rel="modulepreload" href="js/monitor.js">
+  <link rel="modulepreload" href="js/i18n.js">
+  <link rel="modulepreload" href="js/ranking.js">
+<link rel="canonical" href="https://rentads.lk/wanted">
+<meta name="description" content="Renters in Sri Lanka post what they cannot find. If you have it, get in touch.">
+<meta property="og:site_name" content="RentAds.lk">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Wanted rental requests in Sri Lanka | RentAds.lk">
+<meta property="og:description" content="Renters in Sri Lanka post what they cannot find. If you have it, get in touch.">
+<meta property="og:url" content="https://rentads.lk/wanted">
+<meta property="og:image" content="https://rentads.lk/og-image.png">
+<meta property="og:locale" content="en_LK">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Wanted rental requests in Sri Lanka | RentAds.lk">
+<meta name="twitter:description" content="Renters in Sri Lanka post what they cannot find. If you have it, get in touch.">
+<meta name="twitter:image" content="https://rentads.lk/og-image.png"></head>
+<body>
+  <!-- grey placeholders until js/common.js and js/wanted.js load -->
+  <header id="site-header" class="site-header"><div class="wrap"><span class="sk sk-tog" aria-hidden="true"></span><span class="brand"><a class="logo" href="index.html" aria-label="RentAds.lk home">RentAds.lk</a><span class="beta-badge">Beta</span></span><span class="sk-links" aria-hidden="true"><span class="sk"></span><span class="sk"></span></span><span class="sk sk-nav" aria-hidden="true"></span></div></header>
+  <main class="wrap">
+    <section class="want-intro" aria-labelledby="want-h">
+      <div>
+        <h1 id="want-h">Wanted</h1>
+        <p>Renters post what they cannot find. Own something that fits? Open the request and get in touch. Looking for something yourself? Post a request and let vendors come to you.</p>
+      </div>
+      <a class="btn" href="wanted-new.html">Post a request</a>
+    </section>
+
+    <div class="search-layout" style="padding-top:6px">
+      <aside class="card filters" id="filters" aria-label="Filters">
+        <form id="filter-form" autocomplete="off">
+          <div class="row spread"><h3 style="margin:0">Filters</h3><button type="button" class="btn btn-ghost btn-sm filters-close" id="filters-close" data-multi aria-label="Close filters">Close</button></div>
+          <div class="field" style="margin-top:14px"><label for="f-q">Keyword</label><input id="f-q" name="q" type="search" placeholder="Van, villa, generator" enterkeyhint="search"></div>
+          <div class="field"><label for="f-cat">Category</label><select id="f-cat" name="cat"></select></div>
+          <div class="field"><label for="f-prov">Province</label><select id="f-prov" name="prov"></select></div>
+          <div class="field"><label for="f-dist">District</label><select id="f-dist" name="dist"></select></div>
+          <div class="field"><label for="f-sort">Sort by</label>
+            <select id="f-sort" name="sort">
+              <option value="">Best match</option>
+              <option value="ending">Ending soon</option>
+              <option value="budget">Highest budget</option>
+            </select></div>
+          <div class="row"><button class="btn grow" type="submit" data-multi>Show requests</button><button class="btn btn-ghost" type="button" id="clear-btn" data-multi>Clear</button></div>
+        </form>
+      </aside>
+
+      <section aria-live="polite">
+        <div class="results-head">
+          <h2 id="results-title" style="font-size:1.5rem;margin:0">Wanted requests</h2>
+          <button class="btn btn-ghost btn-sm filters-toggle" id="filters-toggle" data-multi aria-expanded="false">Filters</button>
+        </div>
+        <div class="chips" id="active-chips"></div>
+        <div class="listing-grid want-grid" id="results">
+          <div class="sk-want" aria-hidden="true"><div class="row spread"><div class="sk" style="width:84px;height:24px"></div><div class="sk sk-t" style="width:30%;height:11px"></div></div><div class="sk sk-t" style="height:18px;width:88%;margin-top:2px"></div><div class="sk sk-t" style="height:18px;width:52%"></div><div class="sk sk-t" style="height:11px;width:96%;margin-top:4px"></div><div class="sk sk-t" style="height:11px;width:80%"></div><div class="sk sk-t" style="width:46%;height:15px;margin-top:6px"></div><div class="sk sk-t" style="width:38%;height:11px"></div><div class="sk sk-t" style="width:42%;height:11px"></div><div class="row spread" style="margin-top:8px;padding-top:12px;border-top:1px dashed var(--brd2)"><div class="sk sk-t" style="width:40%;height:11px"></div><div class="sk sk-t" style="width:80px;height:14px"></div></div></div>
+          <div class="sk-want" aria-hidden="true"><div class="row spread"><div class="sk" style="width:84px;height:24px"></div><div class="sk sk-t" style="width:30%;height:11px"></div></div><div class="sk sk-t" style="height:18px;width:88%;margin-top:2px"></div><div class="sk sk-t" style="height:18px;width:52%"></div><div class="sk sk-t" style="height:11px;width:96%;margin-top:4px"></div><div class="sk sk-t" style="height:11px;width:80%"></div><div class="sk sk-t" style="width:46%;height:15px;margin-top:6px"></div><div class="sk sk-t" style="width:38%;height:11px"></div><div class="sk sk-t" style="width:42%;height:11px"></div><div class="row spread" style="margin-top:8px;padding-top:12px;border-top:1px dashed var(--brd2)"><div class="sk sk-t" style="width:40%;height:11px"></div><div class="sk sk-t" style="width:80px;height:14px"></div></div></div>
+          <div class="sk-want" aria-hidden="true"><div class="row spread"><div class="sk" style="width:84px;height:24px"></div><div class="sk sk-t" style="width:30%;height:11px"></div></div><div class="sk sk-t" style="height:18px;width:88%;margin-top:2px"></div><div class="sk sk-t" style="height:18px;width:52%"></div><div class="sk sk-t" style="height:11px;width:96%;margin-top:4px"></div><div class="sk sk-t" style="height:11px;width:80%"></div><div class="sk sk-t" style="width:46%;height:15px;margin-top:6px"></div><div class="sk sk-t" style="width:38%;height:11px"></div><div class="sk sk-t" style="width:42%;height:11px"></div><div class="row spread" style="margin-top:8px;padding-top:12px;border-top:1px dashed var(--brd2)"><div class="sk sk-t" style="width:40%;height:11px"></div><div class="sk sk-t" style="width:80px;height:14px"></div></div></div>
+        </div>
+        <div class="load-more hidden" id="more"><button type="button" id="more-btn">Load more</button></div>
+      </section>
+    </div>
+  </main>
+  <footer id="site-footer"></footer>
+  <script src="js/restore.js" data-grid="results"></script>
+  <script type="module" src="js/wanted.js"></script>
+<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a58ee122fd656357',t:'MTc5NDQxNjcwMQ=='};var l=window.parent.location,o;try{o=new URL(l.origin).origin}catch(e){try{o=new URL(new URL(l.href).origin).origin}catch(e){o=''}}var u='/cdn-cgi/challenge-platform/scripts/jsd/main.js?ray=a58ee122fd656357',a=document.createElement('script');a.src=o?new URL(u,o).href:u;document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script><script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/vce701823e78c4301a35b7e07294d87301792088814092" integrity="sha512-UKNk8GbxkABxKcXYuLkO16EleLGUkcvJWtpSNmExE0Too3ZaFAxTscNWEc1OdAv5/BikHawapSCaiD2XCmp+Bw==" data-cf-beacon='{"version":"2024.11.0","token":"d8535d0bba314303ba42fe0066bfd707","r":1,"spa":2}' crossorigin="anonymous"></script>
+</body>
+</html>
