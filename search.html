@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#FFFFFF">
+  <title>Browse rentals in Sri Lanka | RentAds.lk</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/app.css">
+  <!-- speed: connect to the database early and fetch every script at once instead of one by one.
+       The jsdelivr lines must match supabase-js in js/supabase.js (2.118.0); update them together. -->
+  <link rel="preconnect" href="https://gsbkqcmuikgqrohoeykr.supabase.co" crossorigin>
+  <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.118.0/+esm">
+  <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/@supabase/auth-js@2.118.0/+esm">
+  <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/@supabase/postgrest-js@2.118.0/+esm">
+  <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/@supabase/realtime-js@2.118.0/+esm">
+  <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/@supabase/storage-js@2.118.0/+esm">
+  <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/@supabase/functions-js@2.118.0/+esm">
+  <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/@supabase/phoenix@0.4.5/+esm">
+  <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/tslib@2.8.1/+esm">
+  <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/iceberg-js@0.8.1/+esm">
+  <link rel="modulepreload" href="js/common.js">
+  <link rel="modulepreload" href="js/supabase.js">
+  <link rel="modulepreload" href="js/config.js">
+  <link rel="modulepreload" href="js/monitor.js">
+  <link rel="modulepreload" href="js/i18n.js">
+  <link rel="modulepreload" href="js/ranking.js">
+<link rel="canonical" href="https://rentads.lk/search">
+<meta name="description" content="Search rentals across Sri Lanka by category, location and price, then contact the vendor directly.">
+<meta property="og:site_name" content="RentAds.lk">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Browse rentals in Sri Lanka | RentAds.lk">
+<meta property="og:description" content="Search rentals across Sri Lanka by category, location and price, then contact the vendor directly.">
+<meta property="og:url" content="https://rentads.lk/search">
+<meta property="og:image" content="https://rentads.lk/og-image.png">
+<meta property="og:locale" content="en_LK">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Browse rentals in Sri Lanka | RentAds.lk">
+<meta name="twitter:description" content="Search rentals across Sri Lanka by category, location and price, then contact the vendor directly.">
+<meta name="twitter:image" content="https://rentads.lk/og-image.png"></head>
+<body>
+  <!-- grey placeholders until js/common.js and js/search.js load -->
+  <header id="site-header" class="site-header"><div class="wrap"><span class="sk sk-tog" aria-hidden="true"></span><span class="brand"><a class="logo" href="index.html" aria-label="RentAds.lk home">RentAds.lk</a><span class="beta-badge">Beta</span></span><span class="sk-links" aria-hidden="true"><span class="sk"></span><span class="sk"></span></span><span class="sk sk-nav" aria-hidden="true"></span></div></header>
+  <main class="wrap">
+    <div class="search-layout">
+      <aside class="card filters" id="filters" aria-label="Filters">
+        <form id="filter-form" autocomplete="off">
+          <div class="row spread"><h3 style="margin:0">Filters</h3><button type="button" class="btn btn-ghost btn-sm filters-close" id="filters-close" data-multi aria-label="Close filters">Close</button></div>
+          <div class="field" style="margin-top:14px"><label for="f-q">Keyword</label><input id="f-q" name="q" type="search" placeholder="Generator, van, villa" enterkeyhint="search"></div>
+          <div class="field"><label for="f-cat">Category</label><select id="f-cat" name="cat"></select></div>
+          <div class="field" id="sub-field"><label for="f-sub">Subcategory</label><select id="f-sub" name="sub"></select></div>
+          <div class="field"><label for="f-prov">Province</label><select id="f-prov" name="prov"></select></div>
+          <div class="field"><label for="f-dist">District</label><select id="f-dist" name="dist"></select></div>
+          <div class="field"><label for="f-city">City</label><select id="f-city" name="city"></select></div>
+          <div class="grid2">
+            <div class="field"><label for="f-min">Lowest price (Rs)</label><input id="f-min" name="min" type="number" min="0" inputmode="numeric"></div>
+            <div class="field"><label for="f-max">Highest price (Rs)</label><input id="f-max" name="max" type="number" min="0" inputmode="numeric"></div>
+          </div>
+          <div class="field"><label for="f-sort">Sort by</label>
+            <select id="f-sort" name="sort">
+              <option value="">Best match</option>
+              <option value="price_asc">Price, low to high</option>
+              <option value="price_desc">Price, high to low</option>
+            </select></div>
+          <div class="row"><button class="btn grow" type="submit" data-multi>Show results</button><button class="btn btn-ghost" type="button" id="clear-btn" data-multi>Clear</button></div>
+        </form>
+      </aside>
+
+      <section aria-live="polite">
+        <div class="results-head">
+          <h1 id="results-title">Browse rentals</h1>
+          <button class="btn btn-ghost btn-sm filters-toggle" id="filters-toggle" data-multi aria-expanded="false">Filters</button>
+        </div>
+        <div class="chips" id="active-chips"></div>
+        <div class="listing-grid fit3" id="results"><div class="sk-card" aria-hidden="true"><div class="sk sk-media"></div><div class="sk-body"><div class="sk sk-title"></div><div class="sk sk-meta"></div><div class="sk sk-price"></div></div></div><div class="sk-card" aria-hidden="true"><div class="sk sk-media"></div><div class="sk-body"><div class="sk sk-title"></div><div class="sk sk-meta"></div><div class="sk sk-price"></div></div></div><div class="sk-card" aria-hidden="true"><div class="sk sk-media"></div><div class="sk-body"><div class="sk sk-title"></div><div class="sk sk-meta"></div><div class="sk sk-price"></div></div></div><div class="sk-card" aria-hidden="true"><div class="sk sk-media"></div><div class="sk-body"><div class="sk sk-title"></div><div class="sk sk-meta"></div><div class="sk sk-price"></div></div></div><div class="sk-card" aria-hidden="true"><div class="sk sk-media"></div><div class="sk-body"><div class="sk sk-title"></div><div class="sk sk-meta"></div><div class="sk sk-price"></div></div></div><div class="sk-card" aria-hidden="true"><div class="sk sk-media"></div><div class="sk-body"><div class="sk sk-title"></div><div class="sk sk-meta"></div><div class="sk sk-price"></div></div></div><div class="sk-card" aria-hidden="true"><div class="sk sk-media"></div><div class="sk-body"><div class="sk sk-title"></div><div class="sk sk-meta"></div><div class="sk sk-price"></div></div></div><div class="sk-card" aria-hidden="true"><div class="sk sk-media"></div><div class="sk-body"><div class="sk sk-title"></div><div class="sk sk-meta"></div><div class="sk sk-price"></div></div></div></div>
+        <div class="load-more hidden" id="more"><button type="button" id="more-btn">Load more</button></div>
+      </section>
+    </div>
+  </main>
+  <footer id="site-footer"></footer>
+  <script src="js/restore.js" data-grid="results"></script>
+  <script type="module" src="js/search.js"></script>
+<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a58f0067bde72664',t:'MTc5NDQxNzk4Mg=='};var l=window.parent.location,o;try{o=new URL(l.origin).origin}catch(e){try{o=new URL(new URL(l.href).origin).origin}catch(e){o=''}}var u='/cdn-cgi/challenge-platform/scripts/jsd/main.js?ray=a58f0067bde72664',a=document.createElement('script');a.src=o?new URL(u,o).href:u;document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script><script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/vce701823e78c4301a35b7e07294d87301792088814092" integrity="sha512-UKNk8GbxkABxKcXYuLkO16EleLGUkcvJWtpSNmExE0Too3ZaFAxTscNWEc1OdAv5/BikHawapSCaiD2XCmp+Bw==" data-cf-beacon='{"version":"2024.11.0","token":"d8535d0bba314303ba42fe0066bfd707","r":1,"spa":2}' crossorigin="anonymous"></script>
+</body>
+</html>

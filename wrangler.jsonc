@@ -1,0 +1,9 @@
+{
+  "name": "rentads-lk",
+  "workers_dev": true,
+  "routes": [
+    {
+      "pattern": "rentads.lk/*"
+    }
+  ]
+}

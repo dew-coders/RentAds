@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <!-- Cloudflare shows this page for any address that does not exist (not_found_handling in wrangler.jsonc).
+       The address stays what the visitor typed, which can be a few folders deep, so the base below makes the
+       relative links work from anywhere. -->
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#FFFFFF">
+  <meta name="robots" content="noindex">
+  <title>Page not found | RentAds.lk</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/app.css">
+  <!-- speed: connect to the database early and fetch every script at once instead of one by one.
+       The jsdelivr lines must match supabase-js in js/supabase.js (2.118.0); update them together. -->
+  <link rel="preconnect" href="https://gsbkqcmuikgqrohoeykr.supabase.co" crossorigin>
+  <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.118.0/+esm">
+  <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/@supabase/auth-js@2.118.0/+esm">
+  <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/@supabase/postgrest-js@2.118.0/+esm">
+  <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/@supabase/realtime-js@2.118.0/+esm">
+  <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/@supabase/storage-js@2.118.0/+esm">
+  <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/@supabase/functions-js@2.118.0/+esm">
+  <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/@supabase/phoenix@0.4.5/+esm">
+  <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/tslib@2.8.1/+esm">
+  <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/iceberg-js@0.8.1/+esm">
+  <link rel="modulepreload" href="js/common.js">
+  <link rel="modulepreload" href="js/supabase.js">
+  <link rel="modulepreload" href="js/config.js">
+  <link rel="modulepreload" href="js/monitor.js">
+  <link rel="modulepreload" href="js/i18n.js">
+</head>
+<body>
+  <header id="site-header" class="site-header"><div class="wrap"><span class="sk sk-tog" aria-hidden="true"></span><span class="brand"><a class="logo" href="index.html" aria-label="RentAds.lk home">RentAds.lk</a><span class="beta-badge">Beta</span></span><span class="sk-links" aria-hidden="true"><span class="sk"></span><span class="sk"></span></span><span class="sk sk-nav" aria-hidden="true"></span></div></header>
+  <main class="wrap">
+    <!-- same card as "This ad is not available" in js/ad.js -->
+    <div class="card empty" style="max-width:520px;margin:40px auto">
+      <svg class="i" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <h1 style="font-size:1.5rem">We could not find this page</h1>
+      <p class="muted">The link may be wrong, or the page may have been moved or removed.</p>
+      <div class="row" style="justify-content:center;gap:10px;flex-wrap:wrap">
+        <a class="btn" href="search.html">Browse rentals</a>
+        <a class="btn btn-ghost" href="index.html">Go to the homepage</a>
+      </div>
+    </div>
+  </main>
+  <footer id="site-footer"></footer>
+  <script type="module" src="js/legal.js"></script>
+<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a58eeb1149112664',t:'MTc5NDQxNzEwOA=='};var l=window.parent.location,o;try{o=new URL(l.origin).origin}catch(e){try{o=new URL(new URL(l.href).origin).origin}catch(e){o=''}}var u='/cdn-cgi/challenge-platform/scripts/jsd/main.js?ray=a58eeb1149112664',a=document.createElement('script');a.src=o?new URL(u,o).href:u;document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script><script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/vce701823e78c4301a35b7e07294d87301792088814092" integrity="sha512-UKNk8GbxkABxKcXYuLkO16EleLGUkcvJWtpSNmExE0Too3ZaFAxTscNWEc1OdAv5/BikHawapSCaiD2XCmp+Bw==" data-cf-beacon='{"version":"2024.11.0","token":"d8535d0bba314303ba42fe0066bfd707","r":1,"spa":2}' crossorigin="anonymous"></script>
+</body>
+</html>
