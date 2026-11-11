@@ -95,8 +95,8 @@ function makeBtn(floating) {
 function paintBtns() {
   document.querySelectorAll('.lang-toggle').forEach((b) => {
     // short label on phones (CSS in ensureHeaderFit) so the header fits next to the BETA badge
-    b.innerHTML = lang === 'si' ? '<span class="lt-full">English</span><span class="lt-short">EN</span>' : '<span class="lt-full">à·ƒà·’à¶‚à·„à¶½</span><span class="lt-short">à·ƒà·’à¶‚</span>';
-    b.setAttribute('aria-label', lang === 'si' ? 'Switch to English' : 'à·ƒà·’à¶‚à·„à¶½à¶§ à¶¸à·à¶»à·” à·€à¶±à·Šà¶±');
+    b.innerHTML = lang === 'si' ? '<span class="lt-full">English</span><span class="lt-short">EN</span>' : '<span class="lt-full">සිංහල</span><span class="lt-short">සිං</span>';
+    b.setAttribute('aria-label', lang === 'si' ? 'Switch to English' : 'සිංහලට මාරු වන්න');
   });
 }
 function ensureBtn() {
